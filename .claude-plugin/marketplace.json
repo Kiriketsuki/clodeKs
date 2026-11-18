@@ -1,0 +1,5 @@
+{
+  "name": "clodeks",
+  "owner": { "name": "Kiriketsuki" },
+  "plugins": [{ "name": "clodeks", "source": "./plugin" }]
+}

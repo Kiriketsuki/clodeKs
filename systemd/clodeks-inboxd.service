@@ -1,0 +1,20 @@
+[Unit]
+# Stop restarting after 5 failures in 2 minutes, for example when codex is gone.
+StartLimitIntervalSec=120
+StartLimitBurst=5
+Description=clodeKs inboxes: a Claude-facing socket for every live Codex thread
+Documentation=https://github.com/Kiriketsuki/clodeKs
+After=clodeks-appserver.service
+Wants=clodeks-appserver.service
+
+[Service]
+UMask=0077
+Type=simple
+# install.sh writes CLODEKS_CODEX_BIN and a PATH with node here. nvm is not loaded outside a shell.
+EnvironmentFile=-%h/.config/clodeks/env
+ExecStart=%h/.local/bin/clodeks inboxd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

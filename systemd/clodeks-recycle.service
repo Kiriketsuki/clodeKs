@@ -1,0 +1,10 @@
+[Unit]
+Description=Recycle the shared Codex app-server when it is idle
+Documentation=https://github.com/Kiriketsuki/clodeKs
+
+[Service]
+Type=oneshot
+UMask=0077
+TimeoutStartSec=210
+EnvironmentFile=-%h/.config/clodeks/env
+ExecStart=%h/.local/bin/clodeks recycle --if-idle

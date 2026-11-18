@@ -1,0 +1,7 @@
+{
+  "name": "clodeks",
+  "version": "0.1.0",
+  "description": "Codex CLI threads as Claude Code peers: a pane, a band, /codex, codex_threads and codex_send tools, and a codex-exec subagent",
+  "author": { "name": "Kiriketsuki" },
+  "types": "./types/index.d.ts"
+}

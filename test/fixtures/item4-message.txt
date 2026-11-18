@@ -1,0 +1,5 @@
+orch-main on the export test failure: do not change code. Gather evidence first, under load1 15, through the governor:
+1. Run only tests/test_export.py with the CI unittest form, 3 times on the branch head. Log each result.
+2. Control: the same file 3 times on a detached origin/main checkout (a temp worktree under /tmp/worktrees/main-ctl, remove it with git worktree remove after).
+3. Report: pass counts on both, and `gpg --version` first line.
+The error is a vanished gnupg lock file in /dev/shm, which points to a gpg lock race on this laptop, not your change. If the control fails the same way at least once, it is a laptop flake: I then send PUSH and the CI run is the gate. If only the branch fails, we diagnose. Keep each log file and name the run in the report 

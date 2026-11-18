@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "clodeKs wrapper run result",
+  "description": "The wrapper envelope. The caller output schema applies only to result.",
+  "type": "object",
+  "properties": {
+    "ok": { "type": "boolean" },
+    "thread_id": { "type": ["string", "null"] },
+    "result": {},
+    "text": { "type": "string" },
+    "usage": { "type": ["object", "null"] },
+    "commands_run": { "type": "integer", "minimum": 0 },
+    "files_changed": { "type": "array", "items": { "type": "string" } },
+    "duration_ms": { "type": "number", "minimum": 0 },
+    "error": { "type": ["string", "null"] },
+    "result_partial": { "type": "boolean" },
+    "partial_output": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array", "maxItems": 4,
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": { "enum": ["output_file", "agent_message", "agent_message_update", "command_output"] },
+              "text": { "type": "string" },
+              "truncated": { "type": "boolean" }
+            },
+            "required": ["source", "text", "truncated"], "additionalProperties": false
+          }
+        },
+        "bytes": { "type": "integer", "minimum": 0, "maximum": 65536 },
+        "truncated": { "type": "boolean" }
+      },
+      "required": ["items", "bytes", "truncated"], "additionalProperties": false
+    },
+    "gate": {
+      "type": "object",
+      "properties": {
+        "waited_ms": { "type": "integer", "minimum": 0 },
+        "wait_reasons": { "type": "array", "items": { "type": "string" } },
+        "jitter_ms": { "type": "integer", "minimum": 0 },
+        "psi_some_avg10": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "psi_full_avg10": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "swap_in_pages_per_sec": { "type": ["number", "null"], "minimum": 0 },
+        "swap_used_bytes": { "type": ["integer", "null"], "minimum": 0 }
+      },
+      "required": ["waited_ms", "wait_reasons", "jitter_ms", "psi_some_avg10", "psi_full_avg10", "swap_in_pages_per_sec", "swap_used_bytes"],
+      "additionalProperties": false
+    },
+    "execution_budget": {
+      "type": "object",
+      "properties": {
+        "scope": { "const": "worker_execution" },
+        "limit_ms": { "type": "number", "minimum": 0 },
+        "elapsed_ms": { "type": "number", "minimum": 0 },
+        "stop_elapsed_ms": { "type": ["number", "null"], "minimum": 0 }
+      },
+      "required": ["scope", "limit_ms", "elapsed_ms", "stop_elapsed_ms"], "additionalProperties": false
+    },
+    "orphan_cleanup": {
+      "type": "object",
+      "properties": {
+        "removed": { "type": "array", "items": { "type": "string" } },
+        "skipped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": { "path": { "type": "string" }, "reason": { "type": "string" } },
+            "required": ["path", "reason"], "additionalProperties": false
+          }
+        },
+        "errors": { "type": "array", "items": { "type": "string" } },
+        "complete": { "type": "boolean" },
+        "throttled": { "type": "boolean" },
+        "skipped_processes": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["removed", "skipped", "errors", "complete", "throttled", "skipped_processes"],
+      "additionalProperties": false
+    },
+    "reports": {
+      "type": "object",
+      "properties": {
+        "retained": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "path": { "type": "string" },
+              "bytes": { "type": "integer", "minimum": 0, "maximum": 1048576 }
+            },
+            "required": ["name", "path", "bytes"], "additionalProperties": false
+          }
+        },
+        "skipped": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object",
+            "properties": { "name": { "type": "string" }, "reason": { "type": "string" } },
+            "required": ["name", "reason"], "additionalProperties": false
+          }
+        },
+        "prune_errors": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["retained", "skipped", "prune_errors"], "additionalProperties": false
+    }
+  },
+  "required": ["ok", "thread_id", "result", "text", "usage", "commands_run", "files_changed", "duration_ms", "error"],
+  "additionalProperties": true
+}

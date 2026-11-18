@@ -1,0 +1,19 @@
+{
+  "name": "clodeks",
+  "version": "0.1.0",
+  "description": "Bridge between Claude Code and the OpenAI Codex CLI: Codex subagents, a Claude mod, and cross-session messages",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "clodeks": "bin/clodeks.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "test:mod": "claude plugin test plugin",
+    "validate": "claude plugin validate plugin"
+  },
+  "license": "MIT"
+}
